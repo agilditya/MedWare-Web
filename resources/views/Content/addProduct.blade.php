@@ -87,7 +87,7 @@
 
         textarea {
             resize: vertical;
-            min-height: 110px;
+            min-height: 90px;
         }
 
         .submit-btn {
@@ -135,6 +135,13 @@
             object-fit: cover;
             display: none;
         }
+
+        .validation-error {
+            color: #DC5858;
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -145,7 +152,7 @@
             <a href="#">Add Product</a>
         </div>
         <div class="menu">
-        <a href="{{ route('dashboard') }}">Dashboard</a>
+        <a href="{{ route('Content/dashboard') }}">Dashboard</a>
         </div>
     </div>
 </nav>
@@ -159,22 +166,37 @@
             <div class="form-group">
                 <label>Product Name</label>
                 <input type="text" name="productName">
+                @error('productName')
+                    <div class="validation-error" style="display: block">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label>Code</label>
                 <input type="text" name="code">
+                @error('code')
+                    <div class="validation-error" style="display: block">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label>Composition</label>
                 <textarea name="composition"></textarea>
+                @error('composition')
+                    <div class="validation-error" style="display: block">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label>Description</label>
                 <textarea name="description"></textarea>
+                @error('description')
+                    <div class="validation-error" style="display: block">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label>Side Effects</label>
                 <textarea name="sideEffects"></textarea>
+                @error('sideEffects')
+                    <div class="validation-error" style="display: block">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 
@@ -186,22 +208,37 @@
                     <input type="file" name="image" id="imageInput" accept="image/*">
                     <img id="imagePreview" alt="Image Preview">
                 </div>
+                @error('image')
+                    <div class="validation-error" style="display: block">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label>Expired</label>
                 <input type="date" name="expired">
+                @error('expired')
+                    <div class="validation-error" style="display: block">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label>Stock</label>
                 <input type="number" name="stock">
+                @error('stock')
+                    <div class="validation-error" style="display: block">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label>Category</label>
                 <input type="text" name="category">
+                @error('category')
+                    <div class="validation-error" style="display: block">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label>Price</label>
                 <input type="number" name="price">
+                @error('price')
+                    <div class="validation-error" style="display: block">{{ $message }}</div>
+                @enderror
             </div>
             <button type="submit" class="submit-btn">Add Product</button>
         </div>

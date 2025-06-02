@@ -226,8 +226,15 @@
 </nav>
 
 <section id="dashboard" class="section">
+
+    @if(session('success'))
+        <div style="padding: 12px 20px; background-color: #d4edda; color: #155724; border-radius: 6px; margin-bottom: 20px; font-weight: 600;">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="dashboard-grid">
-        {{-- Always show product count --}}
+
         <div class="dashboard-card card-red">
             <h2>{{ \App\Models\Product::count() }}</h2>
             <p>Products are in</p>
@@ -236,7 +243,6 @@
         </div>
 
         @if(Auth::user()->role === 'admin')
-            {{-- Add Product --}}
             <a href="{{ route('products.create') }}" style="text-decoration: none;">
                 <div class="dashboard-card card-blue">
                     <h2>ADD</h2>
@@ -245,30 +251,25 @@
                 </div>
             </a>
 
-
-
-            {{-- View Products --}}
             <div class="dashboard-card card-purple">
                 <h2>VIEW</h2>
                 <p>View all products</p>
                 <img src="{{ asset('images/box-list.png') }}" alt="View Icon">
             </div>
 
-            {{-- View Logs --}}
             <div class="dashboard-card card-orange">
                 <h2>LOG</h2>
                 <p>view activity history</p>
                 <img src="{{ asset('images/board.png') }}" alt="Log Icon">
             </div>
+
         @elseif(Auth::user()->role === 'staff')
-            {{-- View Products --}}
             <div class="dashboard-card card-purple">
                 <h2>VIEW</h2>
                 <p>View all products</p>
                 <img src="{{ asset('images/box-list.png') }}" alt="View Icon">
             </div>
 
-            {{-- Payment --}}
             <div class="dashboard-card card-orange">
                 <h2>PAY</h2>
                 <p>Make a payment</p>

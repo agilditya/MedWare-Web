@@ -25,9 +25,9 @@ Route::get('/login', [AuthController::class, 'showLoginForm']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
+    Route::get('Content/dashboard', function () {
         return view('Content.dashboard');
-    })->name('dashboard');
+    })->name('Content/dashboard');
 
     Route::get('/add-product', function () {
         return view('Content.addProduct');
