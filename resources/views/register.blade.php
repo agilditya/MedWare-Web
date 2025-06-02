@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Register | MedWare</title>
     <style>
-    /* Masukkan CSS milikmu di sini — sudah disesuaikan */
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Arial', sans-serif;
+        font-family: Arial, sans-serif;
     }
 
     body {

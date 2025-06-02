@@ -25,38 +25,44 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/dashboard');
+            $request->session()->regenerate();
+            return redirect()->route('Content/dashboard');
         }
 
         return back()->withErrors([
             'email' => 'Email or password is incorrect.',
-        ]);
+        ])->withInput($request->only('email'));
     }
 
     public function showRegisterForm() {
         return view('register');
     }
     public function register(Request $request) {
-    $request->validate([
-        'username' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        'password' => ['required', 'string', 'min:8'],
-    ], [
-        'username.required' => '*This field is required',
-        'email.required' => '*This field is required',
-        'email.email' => '*Invalid email~~ format',
-        'password.required' => '*This field is required',
-        'password.min:8' => '*The password must be at least 8 characters.',
-]);
+        $request->validate([
+            'username' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+        ], [
+            'username.required' => '*This field is required',
+            'email.required' => '*This field is required',
+            'email.email' => '*Invalid email format',
+            'password.required' => '*This field is required',
+            'password.min:8' => '*The password must be at least 8 characters.',
+        ]);
 
-    $user = User::create([
-        'name' => $request->username,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
+        $user = User::create([
+            'name' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-    Auth::login($user);
-    return redirect()->intended('/dashboard');
+        return redirect('/login')->with('success', 'Registration successful! Please log in.');
     }
+
+    public function logout()
+{
+    Auth::logout();
+    return redirect('/login')->with('success', 'Logout successful.');
+}
 }
 
