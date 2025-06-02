@@ -288,10 +288,10 @@
     <nav>
     <div class="navbar">
         <div class="logo">
-        <a href="#">MedWare</a>
+            <a href="#">MedWare</a>
         </div>
         <div class="menu">
-        <a href="{{ route('login') }}">Log In</a>
+            <a href="{{ route('login') }}">Log In</a>
         </div>
     </div>
     </nav>
@@ -301,7 +301,7 @@
         <div class="text-content">
         <h2>OPTIMIZE YOUR MEDICAL STOCK WITH US</h2>
         <p>Serves as a digital ledger for keeping track of all medical supplies, from medications to medical equipment.</p>
-        <a href="images/register.html" class="btn">Try it free</a>
+        <a href="{{ route('login') }}" class="btn">Try it free</a>
         </div>
         <div class="images">
         <img src="images/foto_definisi.png" alt="Medic illustration">

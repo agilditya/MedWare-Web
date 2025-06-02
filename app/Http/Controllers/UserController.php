@@ -7,7 +7,6 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    // Hanya admin yang boleh akses (pastikan route pakai middleware 'role:admin')
     
     // Menampilkan semua user
     public function index()
