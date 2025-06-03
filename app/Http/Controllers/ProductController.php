@@ -11,8 +11,15 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::latest()->get();
-        return view('Content.dashboard', compact('dashboard'));
+        return view('Content.allProduct', compact('products'));
     }
+
+    public function topFive()
+    {
+        $topFive = Product::orderBy('updated_at', 'desc')->take(5)->get();
+        return view('Content.dashboard', compact('topFive'));
+    }
+
 
     public function create()
     {
@@ -60,12 +67,17 @@ class ProductController extends Controller
         
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('products', 'public');
+            $file = $request->file('image');
+            $productName = strtolower(str_replace(' ', '_', $request->productName));
+            $extension = $file->getClientOriginalExtension();
+            $filename = $productName . '.' . $extension;
+            $path = $file->storeAs('products', $filename, 'public');
+            $validated['image'] = $path;
         }
     
         Product::create($validated);
     
-        return redirect()->route('content.dashboard')->with('success', 'Product created successfully.');
+        return redirect()->route('Content.dashboard')->with('success', 'Product created successfully.');
     }
 
     public function show(Product $product)
@@ -75,29 +87,31 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+        return view('Content.editProduct', compact('product'));
     }
 
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
-            'productName' => 'required|string|max:255',
-            'composition' => 'nullable|string',
-            'sideEffects' => 'nullable|string',
-            'stock' => 'required|integer',
-            'price' => 'required|integer',
+            'productName' => ['required', 'string', 'max:255'],
             'code' => 'required|string|max:6|unique:products,code,' . $product->id,
-            'description' => 'nullable|string',
-            'expired' => 'required|date',
-            'category' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'composition' => ['nullable', 'string'],
+            'description' => ['nullable', 'string'],
+            'sideEffects' => ['nullable', 'string'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'expired' => ['required', 'date'],
+            'stock' => ['required', 'integer'],
+            'category' => ['required', 'string'],
+            'price' => ['required', 'integer'],
         ]);
 
         if ($request->hasFile('image')) {
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
-            }
-            $validated['image'] = $request->file('image')->store('products', 'public');
+            $file = $request->file('image');
+            $productName = strtolower(str_replace(' ', '_', $request->productName));
+            $extension = $file->getClientOriginalExtension();
+            $filename = $productName . '.' . $extension;
+            $path = $file->storeAs('products', $filename, 'public');
+            $validated['image'] = $path;
         }
 
         $product->update($validated);
