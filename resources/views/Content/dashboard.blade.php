@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         html {
             scroll-behavior: smooth;
@@ -56,11 +57,11 @@
             align-items: center;
         }
 
-        .search-bar input {
+        .search-input {
             padding: 6px 10px;
             border-radius: 20px 0 0 20px;
             border: 1px solid #ccc;
-            width: 180px;
+            width: 300px;
             outline: none;
         }
 
@@ -71,7 +72,13 @@
             background: #ff6b6b;
             color: #fff;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
+
+        .search-btn:hover {
+            background-color: #e04e4e;
+        }
+
 
         .user-info {
             display: flex;
@@ -201,16 +208,16 @@
 <nav>
     <div class="navbar">
         <div class="logo">
-            <a href="#dashboard">MedWare</a>
+        <a href="{{ route('Content/dashboard') }}">MedWare</a>
         </div>
 
         <div class="menu">
-            <a href="#dashboard">Dashboard</a>
-            <a href="#products">All Products</a>
+            <a href="{{ route('Content/dashboard') }}">Dashboard</a>
+            <a href="{{ route('Content/allProduct') }}">All Product</a>
         </div>
 
         <div class="search-bar">
-            <input type="text" placeholder=Search">
+            <input type="text" placeholder="Search" class="search-input" />
             <button class="search-btn">Search</button>
         </div>
 
@@ -251,11 +258,13 @@
                 </div>
             </a>
 
-            <div class="dashboard-card card-purple">
-                <h2>VIEW</h2>
-                <p>View all products</p>
-                <img src="{{ asset('images/box-list.png') }}" alt="View Icon">
-            </div>
+            <a href="{{ route('Content/allProduct') }}" style="text-decoration: none;">
+                <div class="dashboard-card card-purple">
+                    <h2>VIEW</h2>
+                    <p>View all products</p>
+                    <img src="{{ asset('images/box-list.png') }}" alt="View Icon">
+                </div>
+            </a>
 
             <div class="dashboard-card card-orange">
                 <h2>LOG</h2>
@@ -279,10 +288,10 @@
     </div>
 </section>
 
-<section id="products" class="section">
-    <h2>All Products</h2>
-    <p>Contoh produk atau tautan ke halaman produk bisa diletakkan di sini.</p>
-</section>
-
+    <section id="products" class="section">
+        <h2>Recent Products</h2>
+        </div>
+    </section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

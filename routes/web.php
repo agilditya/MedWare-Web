@@ -27,7 +27,12 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::middleware('auth')->group(function () {
     Route::get('Content/dashboard', function () {
         return view('Content.dashboard');
-    })->name('Content/dashboard');
+    })->name('Content/dashboard');  
+
+    Route::get('/dashboard', [ProductController::class, 'topFive'])->name('Content.dashboard');
+    Route::get('/all-product', [ProductController::class, 'index'])->name('Content/allProduct');
+    
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
 
     Route::get('/add-product', function () {
         return view('Content.addProduct');
