@@ -297,13 +297,17 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" onclick="window.location='{{ route('products.edit', $product->id) }}'">Edit Product</button>
-                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Are you sure want to delete this product?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete Product</button>
-                        </form>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        @if(Auth::user()->role === 'admin')
+                            <button type="button" class="btn btn-warning" onclick="window.location='{{ route('products.edit', $product->id) }}'">Edit Product</button>
+                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Are you sure want to delete this product?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete Product</button>
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        @elseif(Auth::user()->role === 'staff')
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        @endif  
                     </div>
                 </div>
             </div>

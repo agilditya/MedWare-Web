@@ -8,6 +8,11 @@ use App\Models\User;
 class UserController extends Controller
 {
     
+    public function profile()
+    {
+        return view('Content.profile');
+    }
+
     // Menampilkan semua user
     public function index()
     {
@@ -25,15 +30,26 @@ class UserController extends Controller
     // Menyimpan perubahan role user
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'role' => 'required|in:admin,staff'
-        ]);
+        $user = auth()->user();
 
-        $user = User::findOrFail($id);
-        $user->role = $request->role;
-        $user->save();
+    $request->validate([
+        'username' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'address' => 'nullable|string|max:255',
+        'password' => 'nullable|string|min:6',
+    ]);
 
-        return redirect()->route('users.index')->with('success', 'User role updated.');
+    $user->name = $request->username;
+    $user->email = $request->email;
+    $user->address = $request->address;
+
+    if ($request->filled('password')) {
+        $user->password = bcrypt($request->password);
+    }
+
+    $user->save();
+
+    return redirect()->route('profile')->with('success', 'Profile updated successfully!');
     }
 
     // Hapus user (opsional)
