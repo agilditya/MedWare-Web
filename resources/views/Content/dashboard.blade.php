@@ -110,20 +110,14 @@
             background-color: #53BF63;
         }
 
-        .logout-btn {
-            background-color: transparent;
-            color: #ff6b6b;
-            border: 1px solid #ff6b6b;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 13px;
+        .profile-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             cursor: pointer;
+            object-fit: cover;
         }
 
-        .logout-btn:hover {
-            background-color: #ff6b6b;
-            color: #fff;
-        }
 
         .section {
             padding: 60px 40px;
@@ -226,7 +220,10 @@
                 <span class="role-badge {{ Auth::user()->role }}">{{ ucfirst(Auth::user()->role) }}</span>
                 <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                 @csrf
-                <button class="logout-btn">Logout</button>
+                <a href="{{ route('profile.update') }}">
+                    <img src="{{ asset('images/users/profile.png') }}" alt="Profile" class="profile-icon">
+                </a>
+
             </form>
         </div>
     </div>

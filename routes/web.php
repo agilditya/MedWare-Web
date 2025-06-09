@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\OTPController;
 //////////////////////////////////////////////////////////////////////
 use App\Http\Controllers\ProductController;
@@ -28,6 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::get('Content/dashboard', function () {
         return view('Content.dashboard');
     })->name('Content/dashboard');  
+
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
     Route::get('/dashboard', [ProductController::class, 'topFive'])->name('Content.dashboard');
     Route::get('/all-product', [ProductController::class, 'index'])->name('Content/allProduct');
