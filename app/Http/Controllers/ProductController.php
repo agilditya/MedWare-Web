@@ -156,7 +156,7 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 
-    public function medLog()
+    public function medLog(Request $request)
     {
         $logs = ProductLog::with('user')->latest()->get();
         return view('Content.medlog', compact('logs'));
