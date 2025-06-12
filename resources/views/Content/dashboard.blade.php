@@ -110,12 +110,19 @@
             background-color: #53BF63;
         }
 
-        .profile-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .logout-btn {
+            background-color: transparent;
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
             cursor: pointer;
-            object-fit: cover;
+        }
+
+        .logout-btn:hover {
+            background-color: #ff6b6b;
+            color: #fff;
         }
 
 
@@ -171,6 +178,7 @@
 
         .dashboard-card p {
             font-size: 18px;
+            color: white !important;
             margin: 0;
             line-height: 1.4;
         }
@@ -202,7 +210,7 @@
 <nav>
     <div class="navbar">
         <div class="logo">
-        <a href="{{ route('Content/dashboard') }}">MedWare</a>
+            <a href="{{ route('Content/dashboard') }}">MedWare</a>
         </div>
 
         <div class="menu">
@@ -217,13 +225,10 @@
 
         <div class="user-info">
             <span>Hello, {{ Auth::user()->name }}</span>
-                <span class="role-badge {{ Auth::user()->role }}">{{ ucfirst(Auth::user()->role) }}</span>
-                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+            <span class="role-badge {{ Auth::user()->role }}">{{ ucfirst(Auth::user()->role) }}</span>
+            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                 @csrf
-                <a href="{{ route('profile.update') }}">
-                    <img src="{{ asset('images/users/profile.png') }}" alt="Profile" class="profile-icon">
-                </a>
-
+                <button class="logout-btn">Logout</button>
             </form>
         </div>
     </div>
@@ -246,6 +251,14 @@
             <img src="{{ asset('images/chart.png') }}" alt="Chart Icon">
         </div>
 
+        <a href="{{ route('Content/allProduct') }}" style="text-decoration: none;">
+                <div class="dashboard-card card-purple">
+                    <h2>VIEW</h2>
+                    <p>View all products</p>
+                    <img src="{{ asset('images/box-list.png') }}" alt="View Icon">
+                </div>
+            </a>
+
         @if(Auth::user()->role === 'admin')
             <a href="{{ route('products.create') }}" style="text-decoration: none;">
                 <div class="dashboard-card card-blue">
@@ -255,32 +268,24 @@
                 </div>
             </a>
 
-            <a href="{{ route('Content/allProduct') }}" style="text-decoration: none;">
-                <div class="dashboard-card card-purple">
-                    <h2>VIEW</h2>
-                    <p>View all products</p>
-                    <img src="{{ asset('images/box-list.png') }}" alt="View Icon">
+            <a href="{{ route('product.log') }}" style="text-decoration: none;">
+                <div class="dashboard-card card-orange">
+                    <h2>LOG</h2>
+                    <p>view activity history</p>
+                    <img src="{{ asset('images/board.png') }}" alt="Log Icon">
                 </div>
             </a>
 
-            <div class="dashboard-card card-orange">
-                <h2>LOG</h2>
-                <p>view activity history</p>
-                <img src="{{ asset('images/board.png') }}" alt="Log Icon">
-            </div>
 
         @elseif(Auth::user()->role === 'staff')
-            <div class="dashboard-card card-purple">
-                <h2>VIEW</h2>
-                <p>View all products</p>
-                <img src="{{ asset('images/box-list.png') }}" alt="View Icon">
-            </div>
 
-            <div class="dashboard-card card-orange">
+        <div class="dashboard-card card-orange">
+            <a href="{{ route('payment') }}" style="text-decoration: none;">
                 <h2>PAY</h2>
                 <p>Make a payment</p>
                 <img src="{{ asset('images/pay.png') }}" alt="Payment Icon">
-            </div>
+            </a>
+        </div>
         @endif
     </div>
 </section>

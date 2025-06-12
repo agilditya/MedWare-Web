@@ -5,13 +5,41 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\ProductLog;
 
 class ProductController extends Controller
 {
-    public function index()
-    {
+    public function index(){
         $products = Product::latest()->get();
         return view('Content.allProduct', compact('products'));
+    }
+
+    public function payment()  {
+        $payment = Product::latest()->get();
+        return view('Content.payment', compact('payment'));
+    }
+
+    public function processSell(Request $request)
+    {
+        $items = $request->input('cart');
+
+        foreach ($items as $item) {
+            $product = Product::find($item['id']);
+
+            if ($product) {
+                if ($product->stock >= $item['qty']) {
+                    $product->stock -= $item['qty'];
+                    $product->save();
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Stok tidak mencukupi untuk {$product->productName}"
+                    ], 400);
+                }
+            }
+        }
+
+        return response()->json(['success' => true]);
     }
 
     public function topFive()
@@ -19,7 +47,6 @@ class ProductController extends Controller
         $topFive = Product::orderBy('updated_at', 'desc')->take(5)->get();
         return view('Content.dashboard', compact('topFive'));
     }
-
 
     public function create()
     {
@@ -127,6 +154,12 @@ class ProductController extends Controller
 
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+    }
+
+    public function medLog()
+    {
+        $logs = ProductLog::with('user')->latest()->get();
+        return view('Content.medlog', compact('logs'));
     }
 }
 

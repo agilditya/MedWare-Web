@@ -3,17 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\OTPController;
-//////////////////////////////////////////////////////////////////////
 use App\Http\Controllers\ProductController;
-//////////////////////////////////////////////////////////////////////
-use App\Http\Controllers\Admin\DashboardAdminController;
-use App\Http\Controllers\Admin\MedlogController;
-use App\Http\Controllers\Admin\ProfileAdminController;
-//////////////////////////////////////////////////////////////////////
-use App\Http\Controllers\Staff\DashboardStaffController;
-use App\Http\Controllers\Staff\ProfileStaffController;
-//////////////////////////////////////////////////////////////////////
+
 
 Route::get('/', function () {
     return view('landingPage');
@@ -34,6 +25,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [ProductController::class, 'topFive'])->name('Content.dashboard');
     Route::get('/all-product', [ProductController::class, 'index'])->name('Content/allProduct');
+
+    Route::get('payment', [ProductController::class, 'payment'])->name('payment');
+    Route::post('/sell', [ProductController::class, 'processSell'])->name('product.sell');
     
     Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
 
@@ -42,6 +36,8 @@ Route::middleware('auth')->group(function () {
     })->name('addProduct');
 
     Route::resource('products', ProductController::class);
+    Route::get('/product-log', [ProductController::class, 'medlog'])->name('product.log');
+
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
