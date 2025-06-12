@@ -1,22 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>medlogh</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Riwayat Aktivitas Produk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f9f9f9;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+        }
+
+        .logo a {
+            font-size: 28px;
+            font-weight: bold;
+            color: #e85d5d;
+            text-decoration: none;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu a {
+            font-size: 18px;
+            margin-left: 30px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 40px;
         }
 
         h2 {
             font-weight: bold;
-            margin-bottom: 20px;
             color: #e85d5d;
+            margin-bottom: 20px;
         }
 
         table {
@@ -65,17 +110,28 @@
 </head>
 <body>
 
-    <a href="{{ route('Content/dashboard') }}" class="back-link">&larr; Kembali ke Dashboard</a>
-    <h2>Riwayat Aktivitas Produk (medlogh)</h2>
+<nav>
+    <div class="navbar">
+        <div class="logo">
+            <a href="#">Medlog</a>
+        </div>
+        <div class="menu">
+            <a href="{{ route('Content/dashboard') }}">Dashboard</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h2>Riwayat Aktivitas Produk</h2>
 
     <table>
         <thead>
             <tr>
-                <th>#</th>
-                <th>Nama Produk</th>
-                <th>Aksi</th>
+                <th>No</th>
+                <th>Product</th>
+                <th>Action</th>
                 <th>User</th>
-                <th>Waktu</th>
+                <th>Time</th>
             </tr>
         </thead>
         <tbody>
@@ -90,6 +146,7 @@
             @endforeach
         </tbody>
     </table>
+</div>
 
 </body>
 </html>
