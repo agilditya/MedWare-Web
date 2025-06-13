@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('product_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_id')->nullable();
             $table->string('product_name');
-            $table->string('action'); // ADD, UPDATE, DELETE
-            $table->unsignedBigInteger('user_id')->nullable(); // siapa yang ubah
+            $table->string('action'); 
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

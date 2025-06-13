@@ -149,7 +149,7 @@
 <nav>
     <div class="navbar">
         <div class="logo">
-            <a href="#">Add Product</a>
+            <a href="{{ route('Content/dashboard') }}">Add Product</a>
         </div>
         <div class="menu">
         <a href="{{ route('Content/dashboard') }}">Dashboard</a>
@@ -158,7 +158,7 @@
 </nav>
 
 <div class="container">
-    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('products.store' ) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <!-- KIRI -->

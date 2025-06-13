@@ -58,7 +58,7 @@
             align-items: center;
         }
 
-        .search-bar input {
+        .search-input {
             padding: 6px 10px;
             border-radius: 20px 0 0 20px;
             border: 1px solid #ccc;
@@ -73,6 +73,11 @@
             background: #ff6b6b;
             color: #fff;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background-color: #e04e4e;
         }
 
         .user-info {
@@ -117,21 +122,6 @@
         .role-badge.staff {
             background-color: #4CAF50;
             color: white;
-        }
-
-        .logout-btn {
-            background: none;
-            border: none;
-            color: #e85d5d;
-            cursor: pointer;
-            font-weight: 500;
-            padding: 8px 15px;
-            border-radius: 20px;
-            transition: background-color 0.3s;
-        }
-
-        .logout-btn:hover {
-            background-color: #f5f5f5;
         }
 
         .container {
@@ -329,7 +319,6 @@
                 </div>
             </div>
         </div>
-
         @endforeach
     </div>
 </div>

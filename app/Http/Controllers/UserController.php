@@ -16,20 +16,17 @@ class UserController extends Controller
         return view('Content.profile');
     }
 
-    // Menampilkan semua user
     public function index()
     {
         $users = User::all();
         return view('admin.users.index', compact('users'));
     }
 
-    // Menampilkan form edit user (role)
     public function edit()
     {
         return view('Content.editProfile');
     }
 
-    // Menyimpan perubahan role user
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -41,7 +38,6 @@ class UserController extends Controller
             'new_password' => ['nullable', 'min:8', 'confirmed'],
         ]);
 
-        // Verify current password if provided
         if ($request->filled('current_password')) {
             if (!Hash::check($request->current_password, $user->password)) {
                 return back()->withErrors(['current_password' => 'The current password is incorrect.']);
@@ -60,7 +56,6 @@ class UserController extends Controller
         return redirect()->route('profile')->with('success', 'Profile updated successfully.');
     }
 
-    // Hapus user (opsional)
     public function destroy($id)
     {
         $user = User::findOrFail($id);

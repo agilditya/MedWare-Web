@@ -18,10 +18,11 @@ class ProductController extends Controller
     {
         $query = $request->input('query');
         $products = Product::where('productName', 'like', "%{$query}%")
-                         ->orWhere('code', 'like', "%{$query}%")
-                         ->orWhere('category', 'like', "%{$query}%")
-                         ->latest()
-                         ->get();
+
+                            ->orWhere('code', 'like', "%{$query}%")
+                            ->orWhere('category', 'like', "%{$query}%")
+                            ->latest()
+                            ->get();
         return view('Content.allProduct', compact('products'));
     }
 
@@ -51,12 +52,6 @@ class ProductController extends Controller
         }
 
         return response()->json(['success' => true]);
-    }
-
-    public function topFive()
-    {
-        $topFive = Product::orderBy('updated_at', 'desc')->take(5)->get();
-        return view('Content.dashboard', compact('topFive'));
     }
 
     public function create()
@@ -173,4 +168,3 @@ class ProductController extends Controller
         return view('Content.medlog', compact('logs'));
     }
 }
-
