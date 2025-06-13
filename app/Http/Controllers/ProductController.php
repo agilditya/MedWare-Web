@@ -18,6 +18,7 @@ class ProductController extends Controller
     {
         $query = $request->input('query');
         $products = Product::where('productName', 'like', "%{$query}%")
+
                             ->orWhere('code', 'like', "%{$query}%")
                             ->orWhere('category', 'like', "%{$query}%")
                             ->latest()

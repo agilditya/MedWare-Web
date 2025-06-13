@@ -387,7 +387,6 @@
     </div>
 </nav>
 
-
 <section id="dashboard" class="section">
     @if(session('success'))
         <div style="padding: 12px 20px; background-color: #d4edda; color: #155724; border-radius: 6px; margin-bottom: 20px; font-weight: 600;">
