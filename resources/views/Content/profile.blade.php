@@ -8,128 +8,129 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #e6b8b8;
-      margin: 0;
-      padding: 0;
+      background-color: #f8f9fa;
     }
 
-    .container {
+    .profile-container {
       max-width: 800px;
-      margin: 40px auto;
+      margin: 50px auto;
+      padding: 30px;
       background: white;
-      padding: 30px 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
     }
 
-    .container h2 {
+    .profile-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .profile-header h1 {
+      color: #e85d5d;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .profile-info {
+      margin-bottom: 30px;
+    }
+
+    .info-group {
       margin-bottom: 20px;
     }
 
-    .profile-pic {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: #ddd;
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    .edit-icon {
-      position: absolute;
-      bottom: 5px;
-      right: 5px;
-      background: #e05252;
-      color: white;
-      padding: 5px;
-      border-radius: 50%;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
+    .info-group label {
+      font-weight: 600;
+      color: #555;
       margin-bottom: 5px;
-      font-weight: 500;
     }
 
-    input {
-      width: 100%;
+    .info-group p {
+      font-size: 1.1rem;
+      color: #333;
+      margin: 0;
       padding: 10px;
-      border: 1px solid #e05252;
-      border-radius: 5px;
+      background: #f8f9fa;
+      border-radius: 8px;
     }
 
-    .button-row {
+    .action-buttons {
       display: flex;
-      justify-content: space-between;
+      gap: 15px;
+      justify-content: center;
       margin-top: 30px;
     }
 
-    .btn {
-      padding: 10px 25px;
-      border: none;
-      border-radius: 5px;
+    .btn-edit {
+      background-color: #e85d5d;
       color: white;
-      background-color: #e05252;
-      cursor: pointer;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+
+    .btn-edit:hover {
+      background-color: #d34242;
+      color: white;
+    }
+
+    .btn-logout {
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+
+    .btn-logout:hover {
+      background-color: #5a6268;
+      color: white;
+    }
+
+    .nav-link {
+      color: #e85d5d;
+      text-decoration: none;
       font-weight: 500;
     }
 
-    .btn.logout {
-      background-color: #888;
+    .nav-link:hover {
+      color: #d34242;
     }
   </style>
 </head>
 <body>
+  <div class="profile-container">
+    <div class="profile-header">
+      <h1>Profile</h1>
+      <a href="{{ route('Content/dashboard') }}" class="nav-link">← Back to Dashboard</a>
+    </div>
 
-<div class="container">
-  <h2>Profile</h2>
-  
-  <div class="profile-pic">
-    <div class="edit-icon">✏️</div>
+    <div class="profile-info">
+      <div class="info-group">
+        <label>Name</label>
+        <p>{{ Auth::user()->name }}</p>
+      </div>
+      <div class="info-group">
+        <label>Email</label>
+        <p>{{ Auth::user()->email }}</p>
+      </div>
+      <div class="info-group">
+        <label>Role</label>
+        <p>{{ ucfirst(Auth::user()->role) }}</p>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <a href="{{ route('profile.edit') }}" class="btn btn-edit">Edit Profile</a>
+      <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+        @csrf
+        <button type="submit" class="btn btn-logout">Logout</button>
+      </form>
+    </div>
   </div>
-
-  <form action="{{ route('profile.update') }}" method="POST">
-    @csrf
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" value="ApotekSejahtera21" readonly>
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" value="sejahtera21@gmail.com" readonly>
-    </div>
-
-    <div class="form-group">
-      <label for="address">Address</label>
-      <input type="text" id="address" name="address" placeholder="Enter your address" value="" readonly>
-    </div>
-
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="text" id="password" value="abc****" readonly>
-    </div>
-
-    <div class="button-row">
-      <button type="button" class="btn" onclick="enableEdit()">Edit</button>
-      <a href="{{ route('logout') }}" class="btn logout">Log Out</a>
-    </div>
-  </form>
-</div>
-
-<script>
-  function enableEdit() {
-    document.querySelectorAll('input').forEach(el => el.removeAttribute('readonly'));
-    document.getElementById('password').value = '';
-    document.getElementById('password').setAttribute('type', 'password');
-  }
-</script>
-
 </body>
 </html>

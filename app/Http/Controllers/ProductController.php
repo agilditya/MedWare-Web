@@ -14,6 +14,17 @@ class ProductController extends Controller
         return view('Content.allProduct', compact('products'));
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $products = Product::where('productName', 'like', "%{$query}%")
+                         ->orWhere('code', 'like', "%{$query}%")
+                         ->orWhere('category', 'like', "%{$query}%")
+                         ->latest()
+                         ->get();
+        return view('Content.allProduct', compact('products'));
+    }
+
     public function payment()  {
         $payment = Product::latest()->get();
         return view('Content.payment', compact('payment'));

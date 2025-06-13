@@ -22,9 +22,12 @@ Route::middleware('auth')->group(function () {
     })->name('Content/dashboard');  
 
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
 
     Route::get('/dashboard', [ProductController::class, 'topFive'])->name('Content.dashboard');
     Route::get('/all-product', [ProductController::class, 'index'])->name('Content/allProduct');
+    Route::get('/search', [ProductController::class, 'search'])->name('products.search');
 
     Route::get('payment', [ProductController::class, 'payment'])->name('payment');
     Route::post('/sell', [ProductController::class, 'processSell'])->name('product.sell');
