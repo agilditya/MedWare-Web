@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DashboardController;
 
 
 Route::get('/', function () {
@@ -17,14 +18,15 @@ Route::get('/login', [AuthController::class, 'showLoginForm']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::middleware('auth')->group(function () {
-    Route::get('Content/dashboard', function () {
-        return view('Content.dashboard');
-    })->name('Content/dashboard');  
+    Route::get('Content/dashboard', [DashboardController::class, 'index'])->name('Content/dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('Content.dashboard');
 
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
 
-    Route::get('/dashboard', [ProductController::class, 'topFive'])->name('Content.dashboard');
     Route::get('/all-product', [ProductController::class, 'index'])->name('Content/allProduct');
+    Route::get('/search', [ProductController::class, 'search'])->name('products.search');
 
     Route::get('payment', [ProductController::class, 'payment'])->name('payment');
     Route::post('/sell', [ProductController::class, 'processSell'])->name('product.sell');
@@ -38,8 +40,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
     Route::get('/product-log', [ProductController::class, 'medlog'])->name('product.log');
 
-
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-

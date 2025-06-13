@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -13,46 +16,46 @@ class UserController extends Controller
         return view('Content.profile');
     }
 
-    // Menampilkan semua user
     public function index()
     {
         $users = User::all();
         return view('admin.users.index', compact('users'));
     }
 
-    // Menampilkan form edit user (role)
-    public function edit($id)
+    public function edit()
     {
-        $user = User::findOrFail($id);
-        return view('admin.users.edit', compact('user'));
+        return view('Content.editProfile');
     }
 
-    // Menyimpan perubahan role user
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
-    $request->validate([
-        'username' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'address' => 'nullable|string|max:255',
-        'password' => 'nullable|string|min:6',
-    ]);
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'current_password' => ['nullable', 'required_with:new_password'],
+            'new_password' => ['nullable', 'min:8', 'confirmed'],
+        ]);
 
-    $user->name = $request->username;
-    $user->email = $request->email;
-    $user->address = $request->address;
+        if ($request->filled('current_password')) {
+            if (!Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+            }
+        }
 
-    if ($request->filled('password')) {
-        $user->password = bcrypt($request->password);
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->filled('new_password')) {
+            $user->password = Hash::make($request->new_password);
+        }
+
+        $user->save();
+
+        return redirect()->route('profile')->with('success', 'Profile updated successfully.');
     }
 
-    $user->save();
-
-    return redirect()->route('profile')->with('success', 'Profile updated successfully!');
-    }
-
-    // Hapus user (opsional)
     public function destroy($id)
     {
         $user = User::findOrFail($id);

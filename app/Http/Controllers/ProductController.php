@@ -14,6 +14,17 @@ class ProductController extends Controller
         return view('Content.allProduct', compact('products'));
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $products = Product::where('productName', 'like', "%{$query}%")
+                            ->orWhere('code', 'like', "%{$query}%")
+                            ->orWhere('category', 'like', "%{$query}%")
+                            ->latest()
+                            ->get();
+        return view('Content.allProduct', compact('products'));
+    }
+
     public function payment()  {
         $payment = Product::latest()->get();
         return view('Content.payment', compact('payment'));
@@ -40,12 +51,6 @@ class ProductController extends Controller
         }
 
         return response()->json(['success' => true]);
-    }
-
-    public function topFive()
-    {
-        $topFive = Product::orderBy('updated_at', 'desc')->take(5)->get();
-        return view('Content.dashboard', compact('topFive'));
     }
 
     public function create()
@@ -162,4 +167,3 @@ class ProductController extends Controller
         return view('Content.medlog', compact('logs'));
     }
 }
-
